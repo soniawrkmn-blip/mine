@@ -1,0 +1,15 @@
+release/activatewindow.o
+release/buykeywindow.o
+release/confirmpayment.o
+release/errorwindow.o
+release/main.o
+release/mainwindow.o
+release/stdafx.o
+release/kycprocessor.o
+release/license.o
+release/qrc_img.o
+release/moc_activatewindow.o
+release/moc_buykeywindow.o
+release/moc_errorwindow.o
+release/moc_mainwindow.o
+release/moc_kycprocessor.o
