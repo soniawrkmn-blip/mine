@@ -9,15 +9,18 @@ class KYCProcessor : public QObject
 
 public:
     explicit KYCProcessor(QObject *parent = nullptr);
+    ~KYCProcessor();
     
+    // These methods now schedule work on a background worker thread and return
+    // immediately after input validation. Results and progress are reported via signals.
     bool generateIdentity(const QString& country, const QString& gender, const QString& passportTemplate);
-    bool generateIdentity(const QString& portraitPath, const QString& country, 
+    bool generateIdentity(const QString& portraitPath, const QString& country,
                          const QString& gender, const QString& passportTemplate);
     QString getGeneratedIdentityInfo() const;
     
     bool createVideo(const QString& platform);
     bool createDeepfakeVideo(const QString& portraitPath, const QString& platform,
-                            const QString& videoMode, const QString& quality);
+                              const QString& videoMode, const QString& quality);
     
     bool processDocument(const QString& documentPath);
     bool processKYCVideo(const QString& videoPath);
@@ -41,6 +44,10 @@ private:
     QString generatedIdentityInfo;
     QMap<QString, QString> identityData;
     
+    // background worker thread & object
+    QThread *workerThread;
+    QObject *workerObject; // forward pointer to worker (type erased here)
+
     QString generateUniqueID();
     QString generatePassportNumber(const QString& country);
     QString getCurrentDate();
