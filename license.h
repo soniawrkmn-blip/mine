@@ -20,6 +20,10 @@ public:
     static QString getActivatedHWID();
     static QString generateAdminKey(const QString& hwid);
     static bool validateKey(const QString& key, const QString& hwid);
+
+    // Create a machine activation request file for support containing the current HWID
+    // Returns the full path to the generated request file or an empty string on error
+    static QString createActivationRequest();
     
 private:
     static const QString ADMIN_SECRET;
