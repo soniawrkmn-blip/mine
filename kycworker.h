@@ -29,9 +29,16 @@ signals:
     void processingCompleted(bool success);
     void errorOccurred(const QString& error);
 
+    // data-carrying signals
+    void identityGenerated(const QVariantMap& identityData, const QString& generatedInfo);
+    void projectLoaded(const QVariantMap& identityData);
+    void videoInfo(const QString& info);
+
 private:
     // helper: throttle progress emission
     void emitProgressThrottled(int percent);
+
+    qint64 m_lastProgressMs = 0;
 };
 
 #endif // KYCWORKER_H
