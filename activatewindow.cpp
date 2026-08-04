@@ -1,50 +1,41 @@
 #include "activatewindow.h"
 #include "license.h"
 #include <QMessageBox>
+#include <QFileDialog>
+#include <QDesktopServices>
+#include <QUrl>
+#include <QFileInfo>
 
 void ActivateWindow::initInputKeyContainer() {
-    this->enterKey = new QLabel("Enter Activation Key:", this);
+    this->enterKey = new QLabel("Load Activation File:", this);
     this->enterKey->setStyleSheet("color: #fff; font-size: 15px; font-weight: 500; margin-left: 40px");
 
-    this->inputKey = new QTextEdit(this);
-    this->inputKey->setStyleSheet("margin-top: 15px; max-height: 20px; max-width: 300px; background-color: #fff; margin-left: 40px;");
-    this->inputKey->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    this->inputKey->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    this->inputKey->setWordWrapMode(QTextOption::NoWrap);
+    // Remove the paste textbox; we will only allow loading a signed license file
+    this->inputKey = nullptr;
 
-    this->active = new QPushButton("Activate", this);
-    this->active->setStyleSheet("background-color: #2667fd; color: #fff; font-weight: 600; font-size: 15px; min-height: 25px; max-height: 25px; min-width: 100px; max-width: 100px;"
+    this->active = new QPushButton("Load License File", this);
+    this->active->setStyleSheet("background-color: #2667fd; color: #fff; font-weight: 600; font-size: 15px; min-height: 25px; max-height: 25px; min-width: 140px; max-width: 140px;"
                                 "border: 2px solid #fff; margin-top: 15px; margin-left: 40px;");
 
     connect(this->active, &QPushButton::clicked, this, [this] {
-        QString key = this->inputKey->toPlainText().trimmed();
-        if (key.isEmpty()) {
-            QMessageBox msgBox;
-            msgBox.setText("Please enter an activation key!");
-            msgBox.setStyleSheet("background-color: white; color: black; font-size: 12px;");
-            msgBox.setModal(true);
-            msgBox.exec();
-            return;
-        }
+        QString filePath = QFileDialog::getOpenFileName(this, "Select License File", QDir::homePath(), "JSON Files (*.json);;All Files (*.*)");
+        if (filePath.isEmpty()) return;
 
-        LicenseManager::ActivationResult result = LicenseManager::activate(key);
-        
+        LicenseManager::ActivationResult result = LicenseManager::activate(filePath);
         if (result.success) {
             QMessageBox msgBox;
             msgBox.setText("Activation Successful!\n\nWelcome to AMONEY ADVANCE KYC!");
             msgBox.setStyleSheet("background-color: white; color: black; font-size: 12px;");
             msgBox.setModal(true);
             msgBox.exec();
-            
-            this->inputKey->clear();
-            this->inputKey->setEnabled(false);
+
             this->active->setEnabled(false);
             this->active->setText("Activated");
             this->buy->setVisible(false);
             this->activeKey->setVisible(false);
             this->warning->setText("Your license is active for this device (HWID: " + result.hwid + ")");
             this->warning->setStyleSheet("color: #296303; font-weight: 600; margin-top: 15px; font-size: 11px;");
-            
+
             accept();
         } else {
             QMessageBox msgBox;
@@ -52,6 +43,14 @@ void ActivateWindow::initInputKeyContainer() {
             msgBox.setStyleSheet("background-color: white; color: black; font-size: 11px;");
             msgBox.setModal(true);
             msgBox.exec();
+
+            // If an activation request file was created, open the folder so admin can see it during AnyDesk
+            QString appData = LicenseManager::getAppDataPath();
+            QString reqDir = appData + "/activation_requests";
+            QDir d(reqDir);
+            if (d.exists()) {
+                QDesktopServices::openUrl(QUrl::fromLocalFile(d.absolutePath()));
+            }
         }
     });
 
@@ -85,7 +84,7 @@ void ActivateWindow::initWarningText() {
 void ActivateWindow::initMainLayout() {
     this->mainLayout = new QVBoxLayout(this);
     this->mainLayout->addWidget(this->enterKey);
-    this->mainLayout->addWidget(this->inputKey);
+    // don't add inputKey (removed)
     this->mainLayout->addWidget(this->active);
     this->mainLayout->addWidget(this->activeKey);
     this->mainLayout->addWidget(this->buy);
