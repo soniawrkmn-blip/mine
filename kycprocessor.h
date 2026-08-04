@@ -2,6 +2,7 @@
 #define KYCPROCESSOR_H
 
 #include <stdafx.h>
+#include "kycworker.h"
 
 class KYCProcessor : public QObject
 {
@@ -14,7 +15,7 @@ public:
     // These methods now schedule work on a background worker thread and return
     // immediately after input validation. Results and progress are reported via signals.
     bool generateIdentity(const QString& country, const QString& gender, const QString& passportTemplate);
-    bool generateIdentity(const QString& portraitPath, const QString& country,
+    bool generateIdentity(const QString& portraitPath, const QString& country, 
                          const QString& gender, const QString& passportTemplate);
     QString getGeneratedIdentityInfo() const;
     
@@ -40,13 +41,18 @@ signals:
     void processingCompleted(bool success);
     void errorOccurred(const QString& error);
 
+    // data-carrying signals
+    void identityGenerated(const QVariantMap& identityData, const QString& generatedInfo);
+    void projectLoaded(const QVariantMap& identityData);
+    void videoInfo(const QString& info);
+
 private:
     QString generatedIdentityInfo;
     QMap<QString, QString> identityData;
     
     // background worker thread & object
     QThread *workerThread;
-    QObject *workerObject; // forward pointer to worker (type erased here)
+    KYCWorker *worker;
 
     QString generateUniqueID();
     QString generatePassportNumber(const QString& country);
