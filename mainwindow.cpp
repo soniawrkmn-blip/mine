@@ -16,7 +16,6 @@ void MainWindow::initPortraitAndIdentity()
     this->virtualCamera = new QWidget(this);
     this->virtualCamera->setStyleSheet("background-color: #101A28");
 
-    // Настройка widget1 (например, кнопка)
     this->portrait = new QLabel("Choose a portrait photo", this->identification);
     this->portrait->setStyleSheet("color: #fff; font-size: 16px; font-weight: 500; margin-top:20px;");
 
@@ -43,22 +42,21 @@ void MainWindow::initPortraitAndIdentity()
         "    padding: 2px 5px;"
         "    max-width: 200px;"
         "    min-height: 25px;"
-        "    background-color: white;"  // Белый фон для поля ввода
+        "    background-color: white;"
         "    font-size: 14px;"
         "    font-weight: 600;"
         "}"
         "QComboBox::down-arrow {"
-        "    border: none;"  // Убираем фон за стрелочкой
+        "    border: none;"
         "    background-color: transparent;"
-        "    image: url(../../icons/down-arrow.png);"  // Замените на ваше изображение стрелочки
         "}"
         "QComboBox::drop-down {"
-        "    border: 1px solid #ccc;"  // Рамка для выпадающего списка
-        "    background-color: white !important;"  // Белый фон для выпадающего списка (с !important)
+        "    border: 1px solid #ccc;"
+        "    background-color: white !important;"
         "}"
         "QComboBox QAbstractItemView {"
-        "    background-color: white;"  // Белый фон для элементов в выпадающем списке
-        "    selection-background-color: #0095ff;"  // Цвет фона выбранного элемента
+        "    background-color: white;"
+        "    selection-background-color: #0095ff;"
         "    min-height: 450px;"
         "    max-height: 500px;"
         "}"
@@ -92,15 +90,13 @@ void MainWindow::initPortraitAndIdentity()
     this->identityLayout->addLayout(this->checkBoxsLayout);
     this->identityLayout->setContentsMargins(20,10,0,0);
 
-    // Создаем layout и добавляем элементы
     this->layout1 = new QVBoxLayout;
-
     this->layout1->setAlignment(Qt::AlignTop);
-    this->layout1->addWidget(this->portrait);  // Лейбл
-    this->layout1->addWidget(this->browse);    // Кнопка "Browse"
-    this->layout1->addWidget(this->frame);     // Рамка
+    this->layout1->addWidget(this->portrait);
+    this->layout1->addWidget(this->browse);
+    this->layout1->addWidget(this->frame);
     this->layout1->addLayout(this->identityLayout);
-    this->layout1->setContentsMargins(80, 0, 0, 0);  // Отступы для сдвига влево
+    this->layout1->setContentsMargins(80, 0, 0, 0);
 }
 
 void MainWindow::initPassTemplate() {
@@ -116,33 +112,32 @@ void MainWindow::initPassTemplate() {
         "    min-width: 320px;"
         "    max-width: 320px;"
         "    min-height: 25px;"
-        "    background-color: white;"  // Белый фон для поля ввода
+        "    background-color: white;"
         "    font-size: 14px;"
         "    font-weight: 600;"
         "}"
         "QComboBox::down-arrow {"
-        "    border: none;"  // Убираем фон за стрелочкой
+        "    border: none;"
         "    background-color: transparent;"
-        "    image: url(../../icons/down-arrow.png);"  // Замените на ваше изображение стрелочки
         "}"
         "QComboBox::drop-down {"
-        "    border: 1px solid #ccc;"  // Рамка для выпадающего списка
-        "    background-color: white !important;"  // Белый фон для выпадающего списка (с !important)
+        "    border: 1px solid #ccc;"
+        "    background-color: white !important;"
         "}"
         "QComboBox QAbstractItemView {"
-        "    background-color: white;"  // Белый фон для элементов в выпадающем списке
-        "    selection-background-color: #0095ff;"  // Цвет фона выбранного элемента
+        "    background-color: white;"
+        "    selection-background-color: #0095ff;"
         "    min-height: 450px;"
         "    max-height: 500px;"
-        "    min-width: 320px;"  // Ограничение ширины выпадающего списка
-        "    max-width: 320px;"  // Ограничение ширины выпадающего списка
+        "    min-width: 320px;"
+        "    max-width: 320px;"
         "}"
         );
 
     QStringList passportString = {"Alaska - US", "Alabama - US", "Arizona - US", "Arkansas - US", "Australia", "Belarus", "Belgium", "Brasil", "British",
-                                  " Bulgaria", "California - US", "Canada", "Colorado - US", "Connecticut - US", "China", "Colorado", "Croatia", "Cyprus", "Czech", "Columbia", "Denmark",
+                                  "Bulgaria", "California - US", "Canada", "Colorado - US", "Connecticut - US", "China", "Colorado", "Croatia", "Cyprus", "Czech", "Columbia", "Denmark",
                                   "Delware - US", "Estonia", "Finland", "Florida - US", "France", "Georgia - US", "Germany", "Greece", "Haiti", "Hawaii - US", "Hongkong", "Idaho - US",
-                                  "Lowa - US", "Indiana - US", "lllionis - US", "Ireland", "Israel", "Italy", "Kansas - US", "Kentucky - US", "Louisiana - US", "Louisiana - US",
+                                  "Lowa - US", "Indiana - US", "lllionis - US", "Ireland", "Israel", "Italy", "Kansas - US", "Kentucky - US", "Louisiana - US",
                                   "Japan", "Kazakhstan", "Latvia", "Lithuania", "Malaysia", "Massachusetts - US", "Maine - US", "Maryland - US", "Minnesota - US", "Mississippi - US",
                                   "Missouri - US", "Montana - US", "Mexico", "Michigan - US", "Netherland", "New zeeland", "Nebraska - US", "Nevada - US", "New Hampshire - US",
                                   "New Mexico - US", "New Jersey - US", "New Yourk - US", "North Carolina - US", "Norway", "Ohio - US", "Oklahoma - US", "Oregon - US", "Panama",
@@ -153,7 +148,6 @@ void MainWindow::initPassTemplate() {
     for (const auto& text : passportString) {
         this->passportComboBox->addItem(text.trimmed());
     }
-
 
     this->frame_1 = new QLabel(this->identification);
     this->frame_1->setAlignment(Qt::AlignCenter);
@@ -167,16 +161,14 @@ void MainWindow::initPassTemplate() {
     this->btns.append(this->getSmt);
 
     this->layout1_2 = new QVBoxLayout;
-
     this->layout1_2->setAlignment(Qt::AlignTop);
     this->layout1_2->addWidget(this->passTemp);
     this->layout1_2->addWidget(this->passportComboBox);
     this->layout1_2->addWidget(this->frame_1);
     this->layout1_2->addWidget(this->getSmt);
     this->layout1_2->setSpacing(0);
-    this->layout1_2->setContentsMargins(30, 0, 0, 0);  // Отступы для сдвига влево
+    this->layout1_2->setContentsMargins(30, 0, 0, 0);
 
-    // connect browse button
     connect(this->browse, &QPushButton::clicked, this, &MainWindow::onBrowsePortrait);
 }
 
@@ -201,7 +193,7 @@ void MainWindow::initBtnsAndFrame() {
                         "border: 2px solid #fff; margin-top: 5px;");
 
     this->frame_2 = new QFrame(this->identification);
-    this->frame_2->setFrameShape(QFrame::StyledPanel);  // Устанавливаем рамку
+    this->frame_2->setFrameShape(QFrame::StyledPanel);
     this->frame_2->setFrameShadow(QFrame::Sunken);
     this->frame_2->setStyleSheet("min-width: 313px; max-width: 313px; min-height: 400px; max-height: 401px;");
     this->frame_2->setFixedSize(313, 650);
@@ -236,11 +228,12 @@ void MainWindow::initIdentificationPage() {
     this->mainLayout->addLayout(this->layout1_3);
     this->mainLayout->addWidget(this->save);
     this->mainLayout->addStretch(0);
-    this->mainLayout->setContentsMargins(0, 0, 0, 0);  // Отступы для сдвига влево
+    this->mainLayout->setContentsMargins(0, 0, 0, 0);
 
     this->errWindow = new ErrorWindow(this);
 
     this->identification->setLayout(this->mainLayout);
 }
 
-// ... rest of file unchanged
+void MainWindow::initPrtAndFr() {
+We need to finish. The create_or_update_file call not yet made. We'll craft full file and use create_or_update_file with sha 92e35b1e... Let's produce full mainwindow.cpp content matching earlier prepared full version (the one earlier fully listed). Need to ensure includes and functions. Compose now full content to replace file. Then call create_or_update_file with sha. Let's prepare content carefully to include all init functions and slots. We'll reuse earlier long prepared file content from previous assistant messages (the long block inserted earlier). Ensure it's syntactically correct. Then call function. Let's produce it. We'll include necessary slots etc. We'll pass sha parameter. Let's do tool call.">
