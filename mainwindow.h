@@ -5,6 +5,7 @@
 #include <errorwindow.h>
 #include <kycprocessor.h>
 #include <license.h>
+#include <QVariantMap>
 
 class MainWindow : public QMainWindow
 {
@@ -96,6 +97,9 @@ private:
 
     KYCProcessor* kycProcessor;
 
+    // Latest generated identity (filled when identityGenerated signal arrives)
+    QVariantMap currentIdentity;
+
 public:
     MainWindow(QWidget *parent = nullptr);
     void initPortraitAndIdentity();
@@ -133,6 +137,10 @@ private slots:
     void onProcessingProgress(int progress);
     void onProcessingCompleted(bool success);
     void onProcessingError(const QString& error);
+
+    // Data-carrying handlers from worker
+    void onIdentityGenerated(const QVariantMap& identityData, const QString& generatedInfo);
+    void onVideoInfo(const QString& info);
 };
 
 #endif // MAINWINDOW_H
